@@ -29,7 +29,7 @@ let lint = (structureNode) => {
                 let sizeMods = child.mods.filter(mod => mod.key === 'size')
 
                 if (sizeMods.length === 0) {
-                    errors.push([buildError(structureNode.loc)])
+                    //errors.push([buildError(structureNode.loc)])
                 } else {
                     sizeSet.add(sizeMods[0].value)
                 }

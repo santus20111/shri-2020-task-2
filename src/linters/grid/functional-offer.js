@@ -22,24 +22,21 @@ let lint = (structureNode) => {
 
     let marketingBlocks = ['commercial', 'offer']
     let functionalBlocks = ['payment', 'warning', 'product', 'history', 'cover', 'collect', 'articles', 'subscribtion', 'event']
-    if (structureNode.isBlock &&
-        structureNode.blockName === 'grid') {
+    if (structureNode.blockName === 'grid' && !structureNode.isElem) {
 
-        let functionalColumns = 0
+        let gridColumns = structureNode.mods.filter(mod => mod.key === 'm-columns')[0].value
         let marketingColumns = 0
 
         structureNode.children.forEach(child => {
-            if(child.blockName === 'grid' && child.elemName === 'fraction') {
-            let columns = +child.elemMods.filter(mod => mod.key === 'm-col')[0].value
-                if(marketingBlocks.indexOf(child.children[0].blockName) !== -1) {
+            if (child.blockName === 'grid' && child.elemName === 'fraction') {
+                let columns = +child.elemMods.filter(mod => mod.key === 'm-col')[0].value
+                if (marketingBlocks.indexOf(child.children[0].blockName) !== -1) {
                     marketingColumns += columns
-                } else if(functionalBlocks.indexOf(child.children[0].blockName) !== -1) {
-                    functionalColumns += columns
                 }
             }
         })
 
-        if(marketingColumns > functionalColumns) {
+        if (gridColumns/2 <= marketingColumns) {
             errors.push(buildError(structureNode.loc))
         }
     }
