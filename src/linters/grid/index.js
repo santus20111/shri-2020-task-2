@@ -1,8 +1,8 @@
 let lintFunctionalOffers = require('./functional-offer')
 
-let lint = (structureNode) => {
+let lint = (nodes) => {
     let errors = []
-    errors.push(...lintFunctionalOffers(structureNode))
+    errors.push(...lintFunctionalOffers(nodes))
     return errors
 }
 

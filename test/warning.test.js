@@ -75,3 +75,17 @@ test('Блок Grid;Фукнциональные/Маркетинговые бл
     let text = fs.readFileSync('test/grid/functional-offer-1-errors.json', 'utf8');
     expect(lint(text).length).toBe(1);
 });
+
+test('Блок Headers;H1 единственный на странице;h1-several-0-errors.json', () => {
+    let text = fs.readFileSync('test/headers/h1-several-0-errors.json', 'utf8');
+    expect(lint(text)
+        .filter(error => error.code === 'TEXT.SEVERAL_H1')
+        .length).toBe(0);
+});
+
+test('Блок Headers;H1 единственный на странице;h1-several-1-errors.json', () => {
+    let text = fs.readFileSync('test/headers/h1-several-1-errors.json', 'utf8');
+    expect(lint(text)
+        .filter(error => error.code === 'TEXT.SEVERAL_H1')
+        .length).toBe(1);
+});

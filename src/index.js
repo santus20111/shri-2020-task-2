@@ -1,5 +1,6 @@
 let lintWarning = require('./linters/warning/index')
 let lintGrid = require('./linters/grid/index')
+let lintHeaders = require('./linters/headers/index')
 
 const parse = require('json-to-ast');
 
@@ -7,17 +8,17 @@ let lint = (jsonString) => {
     let rootStructures = getStructure(parse(jsonString))
     let errors = []
 
-    rootStructures.forEach(structure => {
-        errors.push(...lintWarning(structure))
-        errors.push(...lintGrid(structure))
-    })
+    errors.push(...lintWarning(rootStructures))
+    errors.push(...lintGrid(rootStructures))
+    errors.push(...lintHeaders(rootStructures))
+
 
     return clearErrorDuplicates(errors)
 }
 
-if(global) {
+if (global) {
     global.lint = lint
-} else if(window) {
+} else if (window) {
     window.lint = lint
 }
 
@@ -26,14 +27,14 @@ module.exports = lint
 let clearErrorDuplicates = (errors) => {
     let reduced = errors.reduce((total, error) => {
         let key = `${error.code}:${error.location.start.column}:${error.location.start.line}:${error.location.end.column}:${error.location.end.line}`
-        if(!total[key]) {
+        if (!total[key]) {
             total[key] = error
         }
         return total
     }, {})
 
     let reducedErrors = []
-    for(let [key, error] of Object.entries(reduced)) {
+    for (let [key, error] of Object.entries(reduced)) {
         reducedErrors.push(error)
     }
     return reducedErrors
@@ -83,7 +84,7 @@ let getStructure = (astNode, parent = null) => {
         }
 
 
-        let returnValue ={
+        let returnValue = {
             isBlock,
             isElem,
             blockName,

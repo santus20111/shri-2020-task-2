@@ -1,14 +1,14 @@
-let lintWarningTextSize = require('./test-size')
+let lintWarningTextSize = require('./text-size')
 let lintWarningButtonSize = require('./button-size')
 let lintButtonBeforePlaceholder = require('./button-placeholder')
 let lintPlaceholderSize = require('./placeholder-size')
 
-let lint = (structureNode) => {
+let lint = (nodes) => {
     let errors = []
-    errors.push(...lintWarningTextSize(structureNode))
-    errors.push(...lintWarningButtonSize(structureNode))
-    errors.push(...lintButtonBeforePlaceholder(structureNode))
-    errors.push(...lintPlaceholderSize(structureNode))
+    errors.push(...lintWarningTextSize(nodes))
+    errors.push(...lintWarningButtonSize(nodes))
+    errors.push(...lintButtonBeforePlaceholder(nodes))
+    errors.push(...lintPlaceholderSize(nodes))
 
     return errors
 }

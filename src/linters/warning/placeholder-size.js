@@ -1,3 +1,11 @@
+let initLint = (nodes) => {
+    let errors = []
+    nodes.forEach(node => {
+        errors.push(...lint(node))
+    })
+    return errors
+}
+
 let lint = (structureNode) => {
     let sizes = ['s', 'm', 'l']
     let errors = []
@@ -19,7 +27,7 @@ let lint = (structureNode) => {
 
                 let placeholderSizeOptional = child.mods.filter(mod => mod.key === 'size')
 
-                if (placeholderSizeOptional.length > 0 && sizes.indexOf(placeholderSizeOptional[0].value) === -1) {
+                if (placeholderSizeOptional.length === 0 || sizes.indexOf(placeholderSizeOptional[0].value) === -1) {
                     errors.push(buildError(child.loc))
                 }
             }
@@ -31,4 +39,4 @@ let lint = (structureNode) => {
     return errors
 }
 
-module.exports = lint
+module.exports = initLint

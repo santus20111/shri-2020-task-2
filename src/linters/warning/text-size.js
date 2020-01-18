@@ -1,3 +1,11 @@
+let initLint = (nodes) => {
+    let errors = []
+    nodes.forEach(node => {
+        errors.push(...lint(node))
+    })
+    return errors
+}
+
 let lint = (structureNode) => {
     let errors = []
 
@@ -38,4 +46,4 @@ let lint = (structureNode) => {
     return errors
 }
 
-module.exports = lint
+module.exports = initLint
