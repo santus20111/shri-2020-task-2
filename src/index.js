@@ -36,7 +36,7 @@ let clearErrorDuplicates = (errors) => {
     return reducedErrors
 }
 
-let getStructure = (astNode) => {
+let getStructure = (astNode, parent = null) => {
     if (astNode.type === 'Object') {
         let isBlock = astNode.children
             .filter(node => node.type === 'Property' && node.key.value === 'block').length > 0
@@ -55,13 +55,6 @@ let getStructure = (astNode) => {
                 .filter(node => node.type === 'Property' && node.key.value === 'elem')[0].value.value
         }
 
-        let children = []
-        let contentNodes = astNode.children
-            .filter(node => node.type === 'Property' && node.key.value === 'content')
-        if (contentNodes.length > 0) {
-            children = getStructure(contentNodes[0].value)
-        }
-
         let mods = []
         let modsNodes = astNode.children
             .filter(node => node.type === 'Property' && node.key.value === 'mods')
@@ -74,17 +67,27 @@ let getStructure = (astNode) => {
             })
         }
 
-        return [{
+        let returnValue ={
             isBlock,
             isElem,
             blockName,
             elemName,
-            children,
+            children: [],
             mods,
+            parent,
             loc: astNode.loc,
-        }]
+        }
+
+        let contentNodes = astNode.children
+            .filter(node => node.type === 'Property' && node.key.value === 'content')
+        if (contentNodes.length > 0) {
+            returnValue.children = getStructure(contentNodes[0].value, returnValue)
+        }
+
+        return [returnValue]
+
     } else if (astNode.type === 'Array') {
-        return astNode.children.map(node => getStructure(node)[0])
+        return astNode.children.map(node => getStructure(node, parent)[0])
     }
 }
 

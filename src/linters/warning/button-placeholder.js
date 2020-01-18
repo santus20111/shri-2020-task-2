@@ -1,4 +1,4 @@
-module.exports = (structureNode) => {
+let lint = (structureNode, buttonsInWarning = []) => {
     let errors = []
 
     let buildError = (loc) => {
@@ -12,22 +12,60 @@ module.exports = (structureNode) => {
         }
     }
 
-    let firstTextBlockSize = structureNode.children
-        .filter(child => child.isBlock && child.blockName === 'text')[0]
-        .mods
-        .filter(mod => mod.key === 'size')[0]
-        .value
+    if (structureNode.isBlock &&
+        structureNode.blockName === 'button' &&
+        structureNode.parent !== null &&
+        structureNode.parent.isBlock &&
+        structureNode.parent.blockName === 'warning') {
+        buttonsInWarning.push(structureNode)
+    } else if (structureNode.isBlock && structureNode.blockName === 'placeholder') {
+        for (let buttonNode of buttonsInWarning) {
+            errors.push(buildError(buttonNode.loc))
+        }
+    }
 
     for (let child of structureNode.children) {
-        if (child.isBlock && child.blockName === 'button') {
-
-            let buttonSize = child.mods.filter(mod => mod.key === 'size')[0].value
-
-            if(sizes.indexOf(buttonSize) - sizes.indexOf(firstTextBlockSize) !== 1) {
-                errors.push(buildError(child.loc))
-            }
-        }
+        errors.push(...lint(child, buttonsInWarning))
     }
 
     return errors
 }
+
+module.exports = lint
+
+let getBeforeWarningButtonNodes = (node) => {
+    return getParentNodes(node)
+        .filter(iterNode =>
+            iterNode.parent !== node &&
+            iterNode.parent.isBlock &&
+            iterNode.parent.blockName === 'warning' &&
+            iterNode.isBlock &&
+            iterNode.blockName === 'button'
+        )
+}
+
+let getParentNodes = (node) => {
+    let nodes = []
+
+    for (let i = 0; i < node.children.length - 1; i++) {
+        nodes.push(...getChildrenNodes(node.children[i]))
+    }
+    if (node.parent !== null) {
+        nodes.push(...getParentNodes(node.parent))
+    }
+
+    return nodes
+}
+let getChildrenNodes = (node) => {
+    if (node.children.length === 0) {
+        return node.children
+    }
+
+    let nodes = []
+    node.children.forEach(child => {
+        nodes.push(...getChildrenNodes(child))
+    })
+    return nodes
+}
+
+let getAllNodesFrom

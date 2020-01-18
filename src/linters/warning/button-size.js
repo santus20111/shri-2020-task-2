@@ -27,7 +27,7 @@ let lint = (structureNode) => {
 
     for (let child of structureNode.children) {
         if (structureNode.isBlock && structureNode.blockName === 'warning') {
-            if (child.isBlock && child.blockName === 'button') {
+            if (child.isBlock && child.blockName === 'button' && firstTextBlockSize !== null) {
 
                 let buttonSize = child.mods.filter(mod => mod.key === 'size')[0].value
 
