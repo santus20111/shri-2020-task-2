@@ -7,7 +7,7 @@ let initLint = (nodes) => {
 }
 
 let lint = (structureNode) => {
-    let sizes = ['s', 'm', 'l', 'xl', 'xxl']
+    let sizes = ['xxxxxs', 'xxxxs', 'xxxs', 'xxs', 'xs', 's', 'm', 'l', 'xl', 'xxl', 'xxxl', 'xxxxl', 'xxxxxl']
     let errors = []
 
     let buildError = (loc) => {
@@ -39,8 +39,10 @@ let lint = (structureNode) => {
 
                 let buttonSize = child.mods.filter(mod => mod.key === 'size')[0].value
 
-                if (sizes.indexOf(buttonSize) - sizes.indexOf(firstTextBlockSize) !== 1) {
-                    errors.push(buildError(child.loc))
+                if(sizes.indexOf(buttonSize) !== -1 && sizes.indexOf(firstTextBlockSize) !== -1) {
+                    if (sizes.indexOf(buttonSize) - sizes.indexOf(firstTextBlockSize) !== 1) {
+                        errors.push(buildError(child.loc))
+                    }
                 }
             }
         }

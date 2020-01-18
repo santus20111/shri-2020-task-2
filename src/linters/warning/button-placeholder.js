@@ -1,12 +1,12 @@
 let initLint = (nodes) => {
     let errors = []
     nodes.forEach(node => {
-        errors.push(...lint(node))
+        errors.push(...lint(node, [],1))
     })
     return errors
 }
 
-let lint = (structureNode, buttonsInWarning = []) => {
+let lint = (structureNode, buttonsInWarning = [], depth) => {
     let errors = []
 
     let buildError = (loc) => {
@@ -25,15 +25,17 @@ let lint = (structureNode, buttonsInWarning = []) => {
         structureNode.parent !== null &&
         structureNode.parent.isBlock &&
         structureNode.parent.blockName === 'warning') {
-        buttonsInWarning.push(structureNode)
+        buttonsInWarning.push({depth: depth, node: structureNode})
     } else if (structureNode.isBlock && structureNode.blockName === 'placeholder') {
         for (let buttonNode of buttonsInWarning) {
-            errors.push(buildError(buttonNode.loc))
+            if (depth <= buttonNode.depth) {
+                errors.push(buildError(buttonNode.node.loc))
+            }
         }
     }
 
     for (let child of structureNode.children) {
-        errors.push(...lint(child, buttonsInWarning))
+        errors.push(...lint(child, buttonsInWarning, depth + 1))
     }
 
     return errors
