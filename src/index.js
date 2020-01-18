@@ -1,4 +1,6 @@
 let lintWarning = require('./linters/warning/index')
+let lintGrid = require('./linters/grid/index')
+
 const parse = require('json-to-ast');
 
 let lint = (jsonString) => {
@@ -6,7 +8,8 @@ let lint = (jsonString) => {
     let errors = []
 
     rootStructures.forEach(structure => {
-        errors.push(...lintWarning(structure, errors))
+        errors.push(...lintWarning(structure))
+        errors.push(...lintGrid(structure))
     })
 
     return clearErrorDuplicates(errors)
@@ -67,6 +70,19 @@ let getStructure = (astNode, parent = null) => {
             })
         }
 
+        let elemMods = []
+        let elemModsNodes = astNode.children
+            .filter(node => node.type === 'Property' && node.key.value === 'elemMods')
+        if (elemModsNodes.length > 0) {
+            elemMods = elemModsNodes[0].value.children.map(elemModNode => {
+                return {
+                    key: elemModNode.key.value,
+                    value: elemModNode.value.value
+                }
+            })
+        }
+
+
         let returnValue ={
             isBlock,
             isElem,
@@ -74,6 +90,7 @@ let getStructure = (astNode, parent = null) => {
             elemName,
             children: [],
             mods,
+            elemMods,
             parent,
             loc: astNode.loc,
         }

@@ -65,3 +65,13 @@ test('Блок Warning;Размер placeholder;placeholder-size-1-errors.json',
     let text = fs.readFileSync('test/warning-text/placeholder-size-1-errors.json', 'utf8');
     expect(lint(text).length).toBe(1);
 });
+
+test('Блок Grid;Фукнциональные/Маркетинговые блоки;functional-offer-0-errors.json', () => {
+    let text = fs.readFileSync('test/grid/functional-offer-0-errors.json', 'utf8');
+    expect(lint(text).length).toBe(0);
+});
+
+test('Блок Grid;Фукнциональные/Маркетинговые блоки;functional-offer-1-errors.json', () => {
+    let text = fs.readFileSync('test/grid/functional-offer-1-errors.json', 'utf8');
+    expect(lint(text).length).toBe(1);
+});

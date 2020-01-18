@@ -3,7 +3,7 @@ let lint = (structureNode, buttonsInWarning = []) => {
 
     let buildError = (loc) => {
         return {
-            code: "WARNING.INVALID_PLACEHOLDER_SIZE",
+            code: "WARNING.INVALID_BUTTON_POSITION",
             error: "Блок button в блоке warning не может находиться перед блоком placeholder на том же или более глубоком уровне вложенности",
             location: {
                 start: {column: loc.start.column, line: loc.start.line},
@@ -32,40 +32,3 @@ let lint = (structureNode, buttonsInWarning = []) => {
 }
 
 module.exports = lint
-
-let getBeforeWarningButtonNodes = (node) => {
-    return getParentNodes(node)
-        .filter(iterNode =>
-            iterNode.parent !== node &&
-            iterNode.parent.isBlock &&
-            iterNode.parent.blockName === 'warning' &&
-            iterNode.isBlock &&
-            iterNode.blockName === 'button'
-        )
-}
-
-let getParentNodes = (node) => {
-    let nodes = []
-
-    for (let i = 0; i < node.children.length - 1; i++) {
-        nodes.push(...getChildrenNodes(node.children[i]))
-    }
-    if (node.parent !== null) {
-        nodes.push(...getParentNodes(node.parent))
-    }
-
-    return nodes
-}
-let getChildrenNodes = (node) => {
-    if (node.children.length === 0) {
-        return node.children
-    }
-
-    let nodes = []
-    node.children.forEach(child => {
-        nodes.push(...getChildrenNodes(child))
-    })
-    return nodes
-}
-
-let getAllNodesFrom
