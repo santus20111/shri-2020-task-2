@@ -50,6 +50,11 @@ test('Блок Warning;Кнопка перед placeholder;button-placeholder-1-
     expect(lint(text).length).toBe(1);
 });
 
+test('Блок Warning;Кнопка перед placeholder;button-placeholder-1-errors(4).json', () => {
+    let text = fs.readFileSync('test/warning-text/button-placeholder-1-errors(4).json', 'utf8');
+    expect(lint(text).length).toBe(1);
+});
+
 
 test('Блок Warning;Кнопка перед placeholder;button-placeholder-2-errors.json', () => {
     let text = fs.readFileSync('test/warning-text/button-placeholder-2-errors.json', 'utf8');
@@ -88,4 +93,18 @@ test('Блок Headers;H1 единственный на странице;h1-seve
     expect(lint(text)
         .filter(error => error.code === 'TEXT.SEVERAL_H1')
         .length).toBe(2);
+});
+
+test('Блок Headers;H2 перед H1;h2-before-h1-1-errors.json', () => {
+    let text = fs.readFileSync('test/headers/h2-before-h1-1-errors.json', 'utf8');
+    expect(lint(text)
+        .filter(error => error.code === 'TEXT.INVALID_H2_POSITION')
+        .length).toBe(1);
+});
+
+test('Блок Headers;H3 перед H2;h3-before-h2-1-errors.json', () => {
+    let text = fs.readFileSync('test/headers/h3-before-h2-1-errors.json', 'utf8');
+    expect(lint(text)
+        .filter(error => error.code === 'TEXT.INVALID_H3_POSITION')
+        .length).toBe(1);
 });

@@ -59,29 +59,23 @@ let getStructure = (astNode, parent = null) => {
                 .filter(node => node.type === 'Property' && node.key.value === 'elem')[0].value.value
         }
 
-        let mods = []
-        let modsNodes = astNode.children
+        let mods = {}
+        astNode.children
             .filter(node => node.type === 'Property' && node.key.value === 'mods')
-        if (modsNodes.length > 0) {
-            mods = modsNodes[0].value.children.map(modNode => {
-                return {
-                    key: modNode.key.value,
-                    value: modNode.value.value
-                }
+            .forEach(modNodeProp => {
+                modNodeProp.value.children.forEach(modNode => {
+                    mods[modNode.key.value] = modNode.value.value
+                })
             })
-        }
 
-        let elemMods = []
-        let elemModsNodes = astNode.children
+        let elemMods = {}
+        astNode.children
             .filter(node => node.type === 'Property' && node.key.value === 'elemMods')
-        if (elemModsNodes.length > 0) {
-            elemMods = elemModsNodes[0].value.children.map(elemModNode => {
-                return {
-                    key: elemModNode.key.value,
-                    value: elemModNode.value.value
-                }
+            .forEach(modNodeProp => {
+                modNodeProp.value.children.forEach(modNode => {
+                    elemMods[modNode.key.value] = modNode.value.value
+                })
             })
-        }
 
 
         let returnValue = {

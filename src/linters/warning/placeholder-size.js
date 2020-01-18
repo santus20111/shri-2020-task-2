@@ -25,9 +25,7 @@ let lint = (structureNode) => {
         if (structureNode.isBlock && structureNode.blockName === 'warning') {
             if (child.isBlock && child.blockName === 'placeholder') {
 
-                let placeholderSizeOptional = child.mods.filter(mod => mod.key === 'size')
-
-                if (placeholderSizeOptional.length === 0 || sizes.indexOf(placeholderSizeOptional[0].value) === -1) {
+                if (sizes.indexOf(child.mods.size) === -1) {
                     errors.push(buildError(child.loc))
                 }
             }

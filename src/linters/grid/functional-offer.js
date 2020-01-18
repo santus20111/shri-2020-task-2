@@ -21,15 +21,16 @@ let lint = (structureNode) => {
     }
 
     let marketingBlocks = ['commercial', 'offer']
-    let functionalBlocks = ['payment', 'warning', 'product', 'history', 'cover', 'collect', 'articles', 'subscribtion', 'event']
+
     if (structureNode.blockName === 'grid' && !structureNode.isElem) {
 
-        let gridColumns = structureNode.mods.filter(mod => mod.key === 'm-columns')[0].value
+        let gridColumns = +structureNode.mods['m-columns']
+
         let marketingColumns = 0
 
         structureNode.children.forEach(child => {
             if (child.blockName === 'grid' && child.elemName === 'fraction') {
-                let columns = +child.elemMods.filter(mod => mod.key === 'm-col')[0].value
+                let columns = +child.elemMods['m-col']
                 if (marketingBlocks.indexOf(child.children[0].blockName) !== -1) {
                     marketingColumns += columns
                 }

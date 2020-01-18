@@ -26,13 +26,17 @@ let lint = (structureNode) => {
     for (let child of structureNode.children) {
         if (structureNode.isBlock && structureNode.blockName === 'warning') {
             if (child.isBlock && child.blockName === 'text') {
-                let sizeMods = child.mods.filter(mod => mod.key === 'size')
+                //let sizeMods = child.mods.filter(mod => mod.key === 'size')
 
-                if (sizeMods.length === 0) {
+                if(child.mods.size) {
+                    sizeSet.add(child.mods.size)
+                }
+
+/*                if (sizeMods.length === 0) {
                     //errors.push([buildError(structureNode.loc)])
                 } else {
                     sizeSet.add(sizeMods[0].value)
-                }
+                }*/
             }
         }
 

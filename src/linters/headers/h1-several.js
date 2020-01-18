@@ -31,8 +31,7 @@ let collectH1Nodes = (structureNode, h1Nodes) => {
     let errors = []
 
     if(structureNode.blockName === 'text' &&
-        structureNode.mods.filter(mod => mod.key === 'type').length > 0 &&
-        structureNode.mods.filter(mod => mod.key === 'type')[0].value === 'h1') {
+        structureNode.mods.type === 'h1') {
         h1Nodes.push(structureNode)
     }
 

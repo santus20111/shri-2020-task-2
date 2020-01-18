@@ -26,10 +26,7 @@ let lint = (structureNode) => {
 
     let firstTextBlockSize = null
     if (filteredTextBlocks.length > 0) {
-        firstTextBlockSize = filteredTextBlocks[0]
-            .mods
-            .filter(mod => mod.key === 'size')[0]
-            .value
+        firstTextBlockSize = filteredTextBlocks[0].mods.size
     }
 
 
@@ -37,7 +34,7 @@ let lint = (structureNode) => {
         if (structureNode.isBlock && structureNode.blockName === 'warning') {
             if (child.isBlock && child.blockName === 'button' && firstTextBlockSize !== null) {
 
-                let buttonSize = child.mods.filter(mod => mod.key === 'size')[0].value
+                let buttonSize = child.mods.size
 
                 if(sizes.indexOf(buttonSize) !== -1 && sizes.indexOf(firstTextBlockSize) !== -1) {
                     if (sizes.indexOf(buttonSize) - sizes.indexOf(firstTextBlockSize) !== 1) {

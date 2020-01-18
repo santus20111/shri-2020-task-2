@@ -1,0 +1,10 @@
+[
+  {
+    "block": "text",
+    "mods": { "type": "h2" }
+  },
+  {
+    "block": "text",
+    "mods": { "type": "h1" }
+  }
+]
