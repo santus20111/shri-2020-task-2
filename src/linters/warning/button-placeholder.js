@@ -1,5 +1,4 @@
-let lint = (structureNode) => {
-    let sizes = ['s', 'm', 'l', 'xl', 'xxl']
+module.exports = (structureNode) => {
     let errors = []
 
     let buildError = (loc) => {
@@ -13,32 +12,21 @@ let lint = (structureNode) => {
         }
     }
 
-    let filteredTextBlocks = structureNode.children
-        .filter(child => child.isBlock && child.blockName === 'text')
-
-    let firstTextBlockSize = null
-    if (filteredTextBlocks.length > 0) {
-        firstTextBlockSize = filteredTextBlocks[0]
-            .mods
-            .filter(mod => mod.key === 'size')[0]
-            .value
-    }
-
+    let firstTextBlockSize = structureNode.children
+        .filter(child => child.isBlock && child.blockName === 'text')[0]
+        .mods
+        .filter(mod => mod.key === 'size')[0]
+        .value
 
     for (let child of structureNode.children) {
         if (child.isBlock && child.blockName === 'button') {
 
             let buttonSize = child.mods.filter(mod => mod.key === 'size')[0].value
 
-            if (sizes.indexOf(buttonSize) - sizes.indexOf(firstTextBlockSize) !== 1) {
+            if(sizes.indexOf(buttonSize) - sizes.indexOf(firstTextBlockSize) !== 1) {
                 errors.push(buildError(child.loc))
             }
         }
-
-        errors.push(...lint(child, errors))
     }
-
     return errors
 }
-
-module.exports = lint

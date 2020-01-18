@@ -1,4 +1,6 @@
-module.exports = (structureNode) => {
+let lint = (structureNode) => {
+    let errors = []
+
     let buildError = (loc) => {
         return {
             code: "WARNING.TEXT_SIZES_SHOULD_BE_EQUAL",
@@ -17,15 +19,20 @@ module.exports = (structureNode) => {
             let sizeMods = child.mods.filter(mod => mod.key === 'size')
 
             if (sizeMods.length === 0) {
-                return [buildError(structureNode.loc)]
+                errors.push([buildError(structureNode.loc)])
             } else {
                 sizeSet.add(sizeMods[0].value)
             }
         }
+
+        errors.push(...lint(child, errors))
     }
 
     if (sizeSet.size > 1) {
-        return [buildError(structureNode.loc)]
+        errors.push(buildError(structureNode.loc))
     }
-    return []
+
+    return errors
 }
+
+module.exports = lint

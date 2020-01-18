@@ -7,10 +7,6 @@ let lint = (structureNode) => {
         errors.push(...lintWarningTextSize(structureNode))
         errors.push(...lintWarningButtonSize(structureNode))
     }
-
-    structureNode.children.forEach(structureNodeChild => {
-        errors.push(...lint(structureNodeChild, errors))
-    })
     return errors
 }
 
