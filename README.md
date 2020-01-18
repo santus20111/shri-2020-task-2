@@ -51,7 +51,7 @@ const json = `{
 [
     {
         "code": "WARNING.TEXT_SIZES_SHOULD_BE_EQUAL",
-        "error": "Тексты в блоке warning должны быть одного размера",
+        "error": "Тексты в блоке warning-text должны быть одного размера",
         "location": {
             "start": { "column": 1, "line": 1 },
             "end": { "column": 2, "line": 22 }
@@ -76,7 +76,7 @@ const json = `{
 
     ```js
     {
-        "block": "warning",
+        "block": "warning-text",
         // правильно
         "content": [
             { "block": "text", "mods": { "size": "l" } },
@@ -97,7 +97,7 @@ const json = `{
 
     ```js
     {
-        "block": "warning",
+        "block": "warning-text",
         "content": [
             { "block": "text", "mods": { "size": "l" } },
             // правильно
@@ -115,7 +115,7 @@ const json = `{
 
     ```js
     {
-        "block": "warning",
+        "block": "warning-text",
         "content": [
             // правильно
             { "block": "placeholder", "mods": { "size": "m" } },
@@ -135,7 +135,7 @@ const json = `{
 
     ```js
     {
-        "block": "warning",
+        "block": "warning-text",
         "content": [
             // правильно
             { "block": "placeholder", "mods": { "size": "m" }
