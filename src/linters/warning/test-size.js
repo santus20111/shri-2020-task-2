@@ -14,14 +14,17 @@ let lint = (structureNode) => {
 
     let sizeSet = new Set();
 
-    for (let child of structureNode.children) {
-        if (child.isBlock && child.blockName === 'text') {
-            let sizeMods = child.mods.filter(mod => mod.key === 'size')
 
-            if (sizeMods.length === 0) {
-                errors.push([buildError(structureNode.loc)])
-            } else {
-                sizeSet.add(sizeMods[0].value)
+    for (let child of structureNode.children) {
+        if (structureNode.isBlock && structureNode.blockName === 'warning') {
+            if (child.isBlock && child.blockName === 'text') {
+                let sizeMods = child.mods.filter(mod => mod.key === 'size')
+
+                if (sizeMods.length === 0) {
+                    errors.push([buildError(structureNode.loc)])
+                } else {
+                    sizeSet.add(sizeMods[0].value)
+                }
             }
         }
 

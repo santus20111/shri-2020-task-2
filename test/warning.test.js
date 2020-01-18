@@ -11,6 +11,12 @@ test('Блок Warning;Размер текста;text-size-2-errors', () => {
     expect(lint(text).length).toBe(2);
 });
 
+test('Блок Warning;Размер текста;text-size-2-errors(2)', () => {
+    let text = fs.readFileSync('test/warning-text/text-size-2-errors(2).json', 'utf8');
+    expect(lint(text).length).toBe(2);
+});
+
+
 test('Блок Warning;Размер кнопки;button-size-1-errors', () => {
     let text = fs.readFileSync('test/warning-text/button-size-1-errors.json', 'utf8');
     expect(lint(text).length).toBe(1);

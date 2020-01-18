@@ -8,7 +8,8 @@ let lint = (jsonString) => {
     rootStructures.forEach(structure => {
         errors.push(...lintWarning(structure, errors))
     })
-    return errors
+
+    return clearErrorDuplicates(errors)
 }
 
 if(global) {
@@ -18,6 +19,22 @@ if(global) {
 }
 
 module.exports = lint
+
+let clearErrorDuplicates = (errors) => {
+    let reduced = errors.reduce((total, error) => {
+        let key = `${error.code}:${error.location.start.column}:${error.location.start.line}:${error.location.end.column}:${error.location.end.line}`
+        if(!total[key]) {
+            total[key] = error
+        }
+        return total
+    }, {})
+
+    let reducedErrors = []
+    for(let [key, error] of Object.entries(reduced)) {
+        reducedErrors.push(error)
+    }
+    return reducedErrors
+}
 
 let getStructure = (astNode) => {
     if (astNode.type === 'Object') {

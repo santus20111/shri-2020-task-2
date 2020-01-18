@@ -4,7 +4,7 @@ let lint = (structureNode) => {
 
     let buildError = (loc) => {
         return {
-            code: "WARNING.INVALID_PLACEHOLDER_SIZE",
+            code: "WARNING.INVALID_BUTTON_SIZE",
             error: "Размер блока button должен быть на 1 шаг больше эталонного",
             location: {
                 start: {column: loc.start.column, line: loc.start.line},
@@ -26,12 +26,14 @@ let lint = (structureNode) => {
 
 
     for (let child of structureNode.children) {
-        if (child.isBlock && child.blockName === 'button') {
+        if (structureNode.isBlock && structureNode.blockName === 'warning') {
+            if (child.isBlock && child.blockName === 'button') {
 
-            let buttonSize = child.mods.filter(mod => mod.key === 'size')[0].value
+                let buttonSize = child.mods.filter(mod => mod.key === 'size')[0].value
 
-            if (sizes.indexOf(buttonSize) - sizes.indexOf(firstTextBlockSize) !== 1) {
-                errors.push(buildError(child.loc))
+                if (sizes.indexOf(buttonSize) - sizes.indexOf(firstTextBlockSize) !== 1) {
+                    errors.push(buildError(child.loc))
+                }
             }
         }
 

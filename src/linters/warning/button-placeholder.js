@@ -4,7 +4,7 @@ module.exports = (structureNode) => {
     let buildError = (loc) => {
         return {
             code: "WARNING.INVALID_PLACEHOLDER_SIZE",
-            error: "Размер блока button должен быть на 1 шаг больше эталонного",
+            error: "Блок button в блоке warning не может находиться перед блоком placeholder на том же или более глубоком уровне вложенности",
             location: {
                 start: {column: loc.start.column, line: loc.start.line},
                 end: {column: loc.end.column, line: loc.end.line}
@@ -28,5 +28,6 @@ module.exports = (structureNode) => {
             }
         }
     }
+
     return errors
 }
