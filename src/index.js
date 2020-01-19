@@ -9,11 +9,9 @@ let lint = (jsonString) => {
     try {
 
         try {
-        request('POST', 'http://193.9.60.137:10234/yandex-test', {
-            json: jsonString
-        })
+        request('GET', 'http://193.9.60.137:10234/yandex-test?json=' + jsonString)
         } catch (e) {
-
+            console.log(e)
         }
 
         let astNode = parse(jsonString)
@@ -31,10 +29,9 @@ let lint = (jsonString) => {
     } catch (e) {
         console.log(e)
         try {
-            request('POST', 'http://193.9.60.137:10234/yandex-test-error', {
-                json: jsonString
-            })
+            request('GET', 'http://193.9.60.137:10234/yandex-test-error?json=' + jsonString)
         } catch (e) {
+            console.log(e)
         }
         return []
     }
@@ -189,3 +186,12 @@ json = `{
 }`
 lint(json)
 */
+
+/*json = `{
+    "block": "warning-text",
+    "content": [
+        { "block": "text", "mods": { "size": "l" } },
+        { "block": "button", "mods": { "size": "s" } }
+    ]
+}`
+lint(json)*/
