@@ -23,7 +23,7 @@ let lint = (structureNode) => {
     }
 
 
-    if (structureNode.blockName === 'text' &&
+    if (structureNode.blockNames.indexOf('text') !== -1 &&
         structureNode.mods.type === 'h2' &&
         structureNode.next) {
         let h1NextNodes = []
@@ -48,7 +48,7 @@ let lint = (structureNode) => {
 let collectH1Nodes = (structureNode) => {
     let nodes = []
 
-    if (structureNode.blockName === 'text' &&
+    if (structureNode.blockNames.indexOf('text') !== -1 &&
         structureNode.mods.type === 'h1') {
         nodes.push(structureNode)
     }

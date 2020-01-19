@@ -21,8 +21,9 @@ let lint = (structureNode) => {
     }
 
 
-    if (!structureNode.isElem && structureNode.blockName === 'warning') {
+    if (!structureNode.isElem && structureNode.blockNames.indexOf('warning') !== -1) {
         let sizeSet = new Set();
+
 
         collectTexts(structureNode)
             .filter(textNode => textNode.mods.size)
@@ -48,7 +49,7 @@ let lint = (structureNode) => {
 let collectTexts = (structureNode) => {
     let texts = []
 
-    if (!structureNode.isElem && structureNode.blockName === 'text') {
+    if (!structureNode.isElem && structureNode.blockNames.indexOf('text') !== -1) {
         texts.push(structureNode)
     }
 

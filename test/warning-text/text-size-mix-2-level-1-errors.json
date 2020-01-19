@@ -1,0 +1,12 @@
+{
+  "block": "warning",
+  "content": [
+    { "block": "text", "mods": { "size": "m" } },
+    {
+      "block": "some_block",
+      "content": [
+        { "block": "some_block_2", "mix": [{ "block": "text", "mods": { "size": "l" } }] }
+      ]
+    }
+  ]
+}

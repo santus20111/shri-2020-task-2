@@ -21,19 +21,13 @@ let lint = (structureNode) => {
         }
     }
 
-/*    let filteredTextBlocks = structureNode.children
-        .filter(child => child.isBlock && child.blockName === 'text')
-
-    let firstTextBlockSize = null
-    if (filteredTextBlocks.length > 0) {
-        firstTextBlockSize = filteredTextBlocks[0].mods.size
-    }*/
-
-    if (!structureNode.isElem && structureNode.blockName === 'warning') {
+    if (!structureNode.isElem && structureNode.blockNames.indexOf('warning') !== -1) {
         let texts = collectTexts(structureNode)
         let buttons = collectButtons(structureNode)
+
         if (texts.length > 0) {
             let textSize = texts[0].mods.size
+
             buttons.forEach(button => {
                 let buttonSize = button.mods.size
                 if (sizes.indexOf(textSize) !== -1 &&
@@ -55,7 +49,7 @@ let lint = (structureNode) => {
 let collectTexts = (structureNode) => {
     let texts = []
 
-    if (!structureNode.isElem && structureNode.blockName === 'text') {
+    if (!structureNode.isElem && structureNode.blockNames.indexOf('text') !== -1) {
         texts.push(structureNode)
     }
 
@@ -68,7 +62,7 @@ let collectTexts = (structureNode) => {
 let collectButtons = (structureNode) => {
     let texts = []
 
-    if (!structureNode.isElem && structureNode.blockName === 'button') {
+    if (!structureNode.isElem && structureNode.blockNames.indexOf('button') !== -1) {
         texts.push(structureNode)
     }
 

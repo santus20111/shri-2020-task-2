@@ -40,49 +40,54 @@ let clearErrorDuplicates = (errors) => {
     return reducedErrors
 }
 
+let isElem = (astNode) => {
+    return astNode.children.filter(node => node.type === 'Property' && node.key.value === 'elem').length > 0
+}
+let fillNodeInfo = (astNode, blockNames, elemNames, mods, elemMods) => {
+    blockNames.push(astNode.children.filter(node => node.type === 'Property' && node.key.value === 'block')[0].value.value)
+    if (isElem(astNode)) {
+        elemNames.push(astNode.children.filter(node => node.type === 'Property' && node.key.value === 'elem')[0].value.value)
+    }
+
+    astNode.children
+        .filter(node => node.type === 'Property' && node.key.value === 'mods')
+        .forEach(modNodeProp => {
+            modNodeProp.value.children.forEach(modNode => {
+                mods[modNode.key.value] = modNode.value.value
+            })
+        })
+
+    astNode.children
+        .filter(node => node.type === 'Property' && node.key.value === 'elemMods')
+        .forEach(modNodeProp => {
+            modNodeProp.value.children.forEach(modNode => {
+                elemMods[modNode.key.value] = modNode.value.value
+            })
+        })
+}
+
 let getStructure = (astNode, parent = null) => {
     if (astNode.type === 'Object') {
-        let isBlock = astNode.children
-            .filter(node => node.type === 'Property' && node.key.value === 'block').length > 0
-        let isElem = astNode.children
-            .filter(node => node.type === 'Property' && node.key.value === 'elem').length > 0
 
-        let blockName = null;
-        if (isBlock) {
-            blockName = astNode.children
-                .filter(node => node.type === 'Property' && node.key.value === 'block')[0].value.value
-        }
-
-        let elemName = null;
-        if (isElem) {
-            elemName = astNode.children
-                .filter(node => node.type === 'Property' && node.key.value === 'elem')[0].value.value
-        }
-
+        let blockNames = []
+        let elemNames = []
         let mods = {}
-        astNode.children
-            .filter(node => node.type === 'Property' && node.key.value === 'mods')
-            .forEach(modNodeProp => {
-                modNodeProp.value.children.forEach(modNode => {
-                    mods[modNode.key.value] = modNode.value.value
-                })
-            })
-
         let elemMods = {}
+        fillNodeInfo(astNode, blockNames, elemNames, mods, elemMods)
+
         astNode.children
-            .filter(node => node.type === 'Property' && node.key.value === 'elemMods')
-            .forEach(modNodeProp => {
-                modNodeProp.value.children.forEach(modNode => {
-                    elemMods[modNode.key.value] = modNode.value.value
+            .filter(node => node.type === 'Property' && node.key.value === 'mix')
+            .forEach(mixNodeProp => {
+                mixNodeProp.value.children.forEach(mixNode => {
+                    fillNodeInfo(mixNode, blockNames, elemNames, mods, elemMods)
                 })
             })
 
 
         let returnValue = {
-            isBlock,
-            isElem,
-            blockName,
-            elemName,
+            isElem: isElem(astNode),
+            blockNames,
+            elemNames,
             children: [],
             mods,
             elemMods,

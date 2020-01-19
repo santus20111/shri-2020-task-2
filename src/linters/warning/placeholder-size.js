@@ -21,7 +21,7 @@ let lint = (structureNode) => {
         }
     }
 
-    if (!structureNode.isElem && structureNode.blockName === 'warning') {
+    if (!structureNode.isElem && structureNode.blockNames.indexOf('warning') !== -1) {
         let placeholders = collectPlaceholders(structureNode);
         placeholders.forEach(placeholder => {
             if(sizes.indexOf(placeholder.mods.size) === -1) {
@@ -39,7 +39,7 @@ let lint = (structureNode) => {
 
 let collectPlaceholders = (structureNode) => {
     let nodes = []
-    if (!structureNode.isElem && structureNode.blockName === 'placeholder') {
+    if (!structureNode.isElem && structureNode.blockNames.indexOf('placeholder') !== -1) {
         nodes.push(structureNode)
     }
 

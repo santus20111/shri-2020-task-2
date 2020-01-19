@@ -18,8 +18,8 @@ let initLint = (nodes) => {
         collectH1Nodes(node, h1Nodes)
     })
 
-    if(h1Nodes.length > 1) {
-        for(let i = 1;i < h1Nodes.length;i++) {
+    if (h1Nodes.length > 1) {
+        for (let i = 1; i < h1Nodes.length; i++) {
             errors.push(buildError(h1Nodes[i].loc))
         }
     }
@@ -30,7 +30,7 @@ let initLint = (nodes) => {
 let collectH1Nodes = (structureNode, h1Nodes) => {
     let errors = []
 
-    if(structureNode.blockName === 'text' &&
+    if (structureNode.blockNames.indexOf('text') !== -1 &&
         structureNode.mods.type === 'h1') {
         h1Nodes.push(structureNode)
     }

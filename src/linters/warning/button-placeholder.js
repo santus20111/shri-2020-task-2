@@ -21,11 +21,11 @@ let lint = (structureNode, isWarning = false) => {
     }
 
     if (!structureNode.isElem &&
-        structureNode.blockName === 'warning') {
+        structureNode.blockNames.indexOf('warning') !== -1) {
         isWarning = true
     } else if (isWarning &&
         !structureNode.isElem &&
-        structureNode.blockName === 'button' &&
+        structureNode.blockNames.indexOf('button') !== -1 &&
         structureNode.next) {
 
         let placeholderNodes = []
@@ -49,7 +49,7 @@ let lint = (structureNode, isWarning = false) => {
 
 let collectPlaceholders = (structureNode) => {
     let nodes = []
-    if (!structureNode.isElem && structureNode.blockName === 'placeholder') {
+    if (!structureNode.isElem && structureNode.blockNames.indexOf('placeholder') !== -1) {
         nodes.push(structureNode)
     }
 
