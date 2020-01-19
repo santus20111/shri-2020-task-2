@@ -1,12 +1,12 @@
 let initLint = (nodes) => {
     let errors = []
     nodes.forEach(node => {
-        errors.push(...lint(node, [],1))
+        errors.push(...lint(node))
     })
     return errors
 }
 
-let lint = (structureNode, buttonsInWarning = [], depth) => {
+let lint = (structureNode) => {
     let errors = []
 
     let buildError = (loc) => {
@@ -20,25 +20,35 @@ let lint = (structureNode, buttonsInWarning = [], depth) => {
         }
     }
 
-    if (structureNode.isBlock &&
+    if (!structureNode.isElem &&
         structureNode.blockName === 'button' &&
         structureNode.parent !== null &&
-        structureNode.parent.isBlock &&
-        structureNode.parent.blockName === 'warning') {
-        buttonsInWarning.push({depth: depth, node: structureNode})
-    } else if (structureNode.isBlock && structureNode.blockName === 'placeholder') {
-        for (let buttonNode of buttonsInWarning) {
-            if (depth <= buttonNode.depth) {
-                errors.push(buildError(buttonNode.node.loc))
-            }
+        !structureNode.parent.isElem &&
+        structureNode.parent.blockName === 'warning' &&
+        structureNode.next) {
+        if (collectPlaceholders(structureNode.next).length > 0) {
+            errors.push(buildError(structureNode.loc))
         }
     }
 
     for (let child of structureNode.children) {
-        errors.push(...lint(child, buttonsInWarning, depth + 1))
+        errors.push(...lint(child))
     }
 
     return errors
+}
+
+let collectPlaceholders = (structureNode) => {
+    let nodes = []
+    if (!structureNode.isElem && structureNode.blockName === 'placeholder') {
+        nodes.push(structureNode)
+    }
+
+    for (let child of structureNode.children) {
+        nodes.push(...collectPlaceholders(child))
+    }
+
+    return nodes
 }
 
 module.exports = initLint

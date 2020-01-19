@@ -34,32 +34,27 @@ test('Блок Warning;Кнопка перед placeholder;button-placeholder-0-
     expect(lint(text).length).toBe(0);
 });
 
+test('Блок Warning;Кнопка перед placeholder;button-placeholder-0-errors(1).json', () => {
+    let text = fs.readFileSync('test/warning-text/button-placeholder-0-errors(1).json', 'utf8');
+    expect(lint(text).length).toBe(0);
+});
+
+test('Блок Warning;Кнопка перед placeholder;button-placeholder-0-errors(2).json', () => {
+    let text = fs.readFileSync('test/warning-text/button-placeholder-0-errors(2).json', 'utf8');
+    expect(lint(text).length).toBe(0);
+});
+
 
 test('Блок Warning;Кнопка перед placeholder;button-placeholder-1-errors.json', () => {
     let text = fs.readFileSync('test/warning-text/button-placeholder-1-errors.json', 'utf8');
     expect(lint(text).length).toBe(1);
 });
 
-test('Блок Warning;Кнопка перед placeholder;button-placeholder-1-errors(2).json', () => {
-    let text = fs.readFileSync('test/warning-text/button-placeholder-1-errors(2).json', 'utf8');
-    expect(lint(text).length).toBe(1);
-});
-
-test('Блок Warning;Кнопка перед placeholder;button-placeholder-1-errors(3).json', () => {
-    let text = fs.readFileSync('test/warning-text/button-placeholder-1-errors(3).json', 'utf8');
-    expect(lint(text).length).toBe(1);
-});
-
-test('Блок Warning;Кнопка перед placeholder;button-placeholder-1-errors(4).json', () => {
-    let text = fs.readFileSync('test/warning-text/button-placeholder-1-errors(4).json', 'utf8');
-    expect(lint(text).length).toBe(1);
-});
-
-
 test('Блок Warning;Кнопка перед placeholder;button-placeholder-2-errors.json', () => {
     let text = fs.readFileSync('test/warning-text/button-placeholder-2-errors.json', 'utf8');
     expect(lint(text).length).toBe(2);
 });
+
 
 test('Блок Warning;Размер placeholder;placeholder-size-0-errors.json', () => {
     let text = fs.readFileSync('test/warning-text/placeholder-size-0-errors.json', 'utf8');
