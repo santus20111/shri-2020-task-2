@@ -1,0 +1,16 @@
+[
+  {
+    "mods": {
+      "type": "h2"
+    }
+  },
+  {
+    "block": "some",
+    "content": {
+      "block": "text",
+      "mods": {
+        "type": "h1"
+      }
+    }
+  }
+]
