@@ -190,7 +190,7 @@ test('Блок Headers;H1 единственный на странице;h1-seve
         })
 
 
-    expect(errors.length).toBe(1);
+    expect(errors.length).toBe(2);
 });
 
 test('Блок Headers;H2 перед H1;h2-before-h1-0-errors.json', () => {

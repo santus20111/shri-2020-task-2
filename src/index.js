@@ -92,7 +92,6 @@ let getStructure = (astNode, parent = null) => {
                 })
             })
 
-
         let returnValue = {
             isElem: isElem(astNode),
             blockNames,
@@ -126,6 +125,7 @@ let getStructure = (astNode, parent = null) => {
             }
         }
         return nodes
+    } else {
+        return []
     }
-    return []
 }
