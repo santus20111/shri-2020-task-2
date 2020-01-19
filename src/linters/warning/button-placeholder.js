@@ -26,7 +26,16 @@ let lint = (structureNode) => {
         !structureNode.parent.isElem &&
         structureNode.parent.blockName === 'warning' &&
         structureNode.next) {
-        if (collectPlaceholders(structureNode.next).length > 0) {
+
+        let placeholderNodes = []
+
+        let currentNode = structureNode
+        while(currentNode.next) {
+            placeholderNodes.push(...collectPlaceholders(currentNode.next))
+            currentNode = currentNode.next
+        }
+
+        if(placeholderNodes.length > 0) {
             errors.push(buildError(structureNode.loc))
         }
     }
