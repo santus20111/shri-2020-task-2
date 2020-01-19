@@ -8,7 +8,7 @@ let initLint = (nodes) => {
     return errors
 }
 
-let lint = (structureNode, buttonsInWarning = [], depth) => {
+let lint = (structureNode) => {
     let errors = []
 
     let buildError = (loc) => {
@@ -23,22 +23,32 @@ let lint = (structureNode, buttonsInWarning = [], depth) => {
     }
 
     if (structureNode.blockName === 'text' &&
-        structureNode.mods.type === 'h2') {
-        buttonsInWarning.push({depth: depth, node: structureNode})
-    } else if (structureNode.blockName === 'text' &&
-        structureNode.mods.type === 'h1') {
-        for (let buttonNode of buttonsInWarning) {
-            if (depth <= buttonNode.depth) {
-                errors.push(buildError(buttonNode.node.loc))
-            }
+        structureNode.mods.type === 'h2' &&
+        structureNode.next) {
+        if(collectH1Nodes(structureNode.next).length > 0) {
+            errors.push(buildError(structureNode.loc))
         }
     }
 
-    for (let child of structureNode.children) {
-        errors.push(...lint(child, buttonsInWarning, depth + 1))
+    structureNode.children.forEach(child => {
+        errors.push(...lint(child))
+    })
+    return errors
+}
+
+let collectH1Nodes = (structureNode) => {
+    let nodes = []
+
+    if (structureNode.blockName === 'text' &&
+        structureNode.mods.type === 'h1') {
+        nodes.push(structureNode)
     }
 
-    return errors
+    structureNode.children.forEach(child => {
+        nodes.push(...collectH1Nodes(child))
+    })
+
+    return nodes
 }
 
 module.exports = initLint

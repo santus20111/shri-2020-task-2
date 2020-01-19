@@ -95,6 +95,14 @@ test('Блок Headers;H1 единственный на странице;h1-seve
         .length).toBe(2);
 });
 
+test('Блок Headers;H2 перед H1;h2-before-h1-0-errors.json', () => {
+    let text = fs.readFileSync('test/headers/h2-before-h1-0-errors.json', 'utf8');
+    expect(lint(text)
+        .filter(error => error.code === 'TEXT.INVALID_H2_POSITION')
+        .length).toBe(0);
+});
+
+
 test('Блок Headers;H2 перед H1;h2-before-h1-1-errors.json', () => {
     let text = fs.readFileSync('test/headers/h2-before-h1-1-errors.json', 'utf8');
     expect(lint(text)
@@ -107,4 +115,11 @@ test('Блок Headers;H3 перед H2;h3-before-h2-1-errors.json', () => {
     expect(lint(text)
         .filter(error => error.code === 'TEXT.INVALID_H3_POSITION')
         .length).toBe(1);
+});
+
+test('Блок Headers;H3 перед H2;h3-before-h2-0-errors.json', () => {
+    let text = fs.readFileSync('test/headers/h3-before-h2-0-errors.json', 'utf8');
+    expect(lint(text)
+        .filter(error => error.code === 'TEXT.INVALID_H3_POSITION')
+        .length).toBe(0);
 });

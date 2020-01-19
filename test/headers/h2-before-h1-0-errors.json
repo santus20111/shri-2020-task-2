@@ -1,19 +1,19 @@
 [
   {
-    "block": "text",
-    "mods": {
-      "type": "h2"
-    }
-  },
-  {
     "block": "some",
     "content": [
       {
         "block": "text",
         "mods": {
-          "type": "h1"
+          "type": "h2"
         }
       }
     ]
+  },
+  {
+    "block": "text",
+    "mods": {
+      "type": "h1"
+    }
   }
 ]

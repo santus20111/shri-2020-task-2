@@ -87,19 +87,31 @@ let getStructure = (astNode, parent = null) => {
             mods,
             elemMods,
             parent,
+            previous: null,
+            next: null,
             loc: astNode.loc,
         }
 
-        let contentNodes = astNode.children
+        let contentNodeOptional = astNode.children
             .filter(node => node.type === 'Property' && node.key.value === 'content')
-        if (contentNodes.length > 0) {
-            returnValue.children = getStructure(contentNodes[0].value, returnValue)
+
+        if (contentNodeOptional.length > 0) {
+            returnValue.children = getStructure(contentNodeOptional[0].value, returnValue)
         }
 
         return [returnValue]
 
     } else if (astNode.type === 'Array') {
-        return astNode.children.map(node => getStructure(node, parent)[0])
+        let nodes = astNode.children.map(node => getStructure(node, parent)[0])
+        for (let i = 0; i < nodes.length; i++) {
+            if (i !== 0) {
+                nodes[i].previous = nodes[i - 1]
+            }
+            if (i !== nodes.length - 1) {
+                nodes[i].next = nodes[i + 1]
+            }
+        }
+        return nodes
     }
 }
 
