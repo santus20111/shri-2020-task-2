@@ -20,34 +20,42 @@ let lint = (structureNode) => {
         }
     }
 
-    let sizeSet = new Set();
 
+    if (!structureNode.isElem && structureNode.blockName === 'warning') {
+        let sizeSet = new Set();
+
+        collectTexts(structureNode)
+            .filter(textNode => textNode.mods.size)
+            .map(textNode => textNode.mods.size)
+            .forEach(textSize => {
+                sizeSet.add(textSize)
+            })
+
+
+        if (sizeSet.size > 1) {
+            errors.push(buildError(structureNode.loc))
+        }
+    }
 
     for (let child of structureNode.children) {
-        if (structureNode.isBlock && structureNode.blockName === 'warning') {
-            if (child.isBlock && child.blockName === 'text') {
-                //let sizeMods = child.mods.filter(mod => mod.key === 'size')
-
-                if(child.mods.size) {
-                    sizeSet.add(child.mods.size)
-                }
-
-/*                if (sizeMods.length === 0) {
-                    //errors.push([buildError(structureNode.loc)])
-                } else {
-                    sizeSet.add(sizeMods[0].value)
-                }*/
-            }
-        }
 
         errors.push(...lint(child, errors))
     }
 
-    if (sizeSet.size > 1) {
-        errors.push(buildError(structureNode.loc))
+    return errors
+}
+
+let collectTexts = (structureNode) => {
+    let texts = []
+
+    if (!structureNode.isElem && structureNode.blockName === 'text') {
+        texts.push(structureNode)
     }
 
-    return errors
+    for (let child of structureNode.children) {
+        texts.push(...collectTexts(child))
+    }
+    return texts
 }
 
 module.exports = initLint

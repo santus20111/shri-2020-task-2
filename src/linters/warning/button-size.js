@@ -50,4 +50,5 @@ let lint = (structureNode) => {
     return errors
 }
 
+
 module.exports = initLint

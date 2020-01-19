@@ -19,7 +19,7 @@ let initLint = (nodes) => {
     })
 
     if(h1Nodes.length > 1) {
-        for(let i = 0;i < h1Nodes.length;i++) {
+        for(let i = 1;i < h1Nodes.length;i++) {
             errors.push(buildError(h1Nodes[i].loc))
         }
     }
