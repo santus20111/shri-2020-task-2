@@ -29,10 +29,10 @@ let lint = (structureNode) => {
         let h1NextNodes = []
 
         let currentNode = structureNode
-        while(currentNode.next) {
+/*        while(currentNode.next) {*/
             h1NextNodes.push(...collectH1Nodes(currentNode.next))
-            currentNode = currentNode.next
-        }
+/*            currentNode = currentNode.next
+        }*/
 
         if(h1NextNodes.length > 0) {
             errors.push(buildError(structureNode.loc))

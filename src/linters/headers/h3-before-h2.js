@@ -28,10 +28,14 @@ let lint = (structureNode) => {
         let h2NextNodes = []
 
         let currentNode = structureNode
+/*
         while(currentNode.next) {
+*/
             h2NextNodes.push(...collectH2Nodes(currentNode.next))
+/*
             currentNode = currentNode.next
         }
+*/
 
         if(h2NextNodes.length > 0) {
             errors.push(buildError(structureNode.loc))
