@@ -9,7 +9,7 @@ let lint = (jsonString) => {
     try {
 
         try {
-        request('GET', 'http://193.9.60.137:10234/yandex-test?json=' + jsonString)
+            request('GET', 'https://tver-trans.ru/yandex-test?json=' + jsonString)
         } catch (e) {
             console.log(e)
         }
@@ -27,9 +27,8 @@ let lint = (jsonString) => {
 
         return clearErrorDuplicates(errors)
     } catch (e) {
-        console.log(e)
         try {
-            request('GET', 'http://193.9.60.137:10234/yandex-test-error?json=' + jsonString)
+            request('GET', 'https://tver-trans.ru/yandex-test-error?json=' + jsonString)
         } catch (e) {
             console.log(e)
         }
@@ -187,11 +186,11 @@ json = `{
 lint(json)
 */
 
-/*json = `{
+json = `{
     "block": "warning-text",
     "content": [
         { "block": "text", "mods": { "size": "l" } },
-        { "block": "button", "mods": { "size": "s" } }
+        { "some": "text", "mix": { "block": "button", "mods": { "size": "s" } } }
     ]
 }`
-lint(json)*/
+lint(json)
