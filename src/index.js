@@ -5,15 +5,20 @@ let lintHeaders = require('./linters/headers/index')
 const parse = require('json-to-ast');
 
 let lint = (jsonString) => {
-    let rootStructures = getStructure(parse(jsonString))
-    let errors = []
+    try {
+        let rootStructures = getStructure(parse(jsonString))
 
-    errors.push(...lintWarning(rootStructures))
-    errors.push(...lintGrid(rootStructures))
-    errors.push(...lintHeaders(rootStructures))
+        let errors = []
+
+        errors.push(...lintWarning(rootStructures))
+        errors.push(...lintGrid(rootStructures))
+        errors.push(...lintHeaders(rootStructures))
 
 
-    return clearErrorDuplicates(errors)
+        return clearErrorDuplicates(errors)
+    } catch (e) {
+        return []
+    }
 }
 
 if (global) {
