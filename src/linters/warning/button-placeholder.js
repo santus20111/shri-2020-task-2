@@ -31,12 +31,10 @@ let lint = (structureNode, isWarning = false) => {
         let placeholderNodes = []
 
         let currentNode = structureNode
-/*
         while (currentNode.next) {
-*/
             placeholderNodes.push(...collectPlaceholders(currentNode.next))
-/*            currentNode = currentNode.next
-        }*/
+            currentNode = currentNode.next
+        }
 
         if (placeholderNodes.length > 0) {
             errors.push(buildError(structureNode.loc))
