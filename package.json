@@ -18,8 +18,7 @@
   },
   "homepage": "https://github.com/santus20111/shri-2020-task-2#readme",
   "dependencies": {
-    "json-to-ast": "^2.1.0",
-    "sync-request": "^6.1.0"
+    "json-to-ast": "^2.1.0"
   },
   "devDependencies": {
     "jest": "^24.9.0",
