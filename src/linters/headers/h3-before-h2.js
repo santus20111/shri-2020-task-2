@@ -25,7 +25,15 @@ let lint = (structureNode) => {
     if (structureNode.blockName === 'text' &&
         structureNode.mods.type === 'h3' &&
         structureNode.next) {
-        if(collectH2Nodes(structureNode.next).length > 0) {
+        let h2NextNodes = []
+
+        let currentNode = structureNode
+        while(currentNode.next) {
+            h2NextNodes.push(...collectH2Nodes(currentNode.next))
+            currentNode = currentNode.next
+        }
+
+        if(h2NextNodes.length > 0) {
             errors.push(buildError(structureNode.loc))
         }
     }
