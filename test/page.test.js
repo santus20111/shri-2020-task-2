@@ -7,4 +7,5 @@ test('Тест страниц из 1 задания на исключения', 
 
     lint(indexText)
     lint(productText)
+    lint('asd')
 });
