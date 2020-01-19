@@ -49,7 +49,8 @@ let lint = (structureNode) => {
 let collectTexts = (structureNode) => {
     let texts = []
 
-    if (!structureNode.isElem && structureNode.blockNames.indexOf('text') !== -1) {
+    if (!structureNode.isElem &&
+        (structureNode.blockNames.indexOf('warning') !== -1 || structureNode.blockNames.indexOf('warning-text') !== -1)) {
         texts.push(structureNode)
     }
 

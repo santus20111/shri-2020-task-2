@@ -1,0 +1,20 @@
+{
+  "block": "warning-text",
+  "content": [
+    {
+      "block": "text",
+      "mods": {
+        "size": "l"
+      }
+    },
+    {
+      "some": "text",
+      "mix": {
+        "block": "button",
+        "mods": {
+          "size": "s"
+        }
+      }
+    }
+  ]
+}

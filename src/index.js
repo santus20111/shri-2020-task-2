@@ -6,34 +6,18 @@ const request = require('sync-request');
 const parse = require('json-to-ast');
 
 let lint = (jsonString) => {
-    try {
+    let astNode = parse(jsonString)
 
-        try {
-            request('GET', 'https://tver-trans.ru/yandex-test?json=' + jsonString)
-        } catch (e) {
-            console.log(e)
-        }
+    let rootStructures = getStructure(astNode)
 
-        let astNode = parse(jsonString)
+    let errors = []
 
-        let rootStructures = getStructure(astNode)
-
-        let errors = []
-
-        errors.push(...lintWarning(rootStructures))
-        errors.push(...lintGrid(rootStructures))
-        errors.push(...lintHeaders(rootStructures))
+    errors.push(...lintWarning(rootStructures))
+    errors.push(...lintGrid(rootStructures))
+    errors.push(...lintHeaders(rootStructures))
 
 
-        return clearErrorDuplicates(errors)
-    } catch (e) {
-        try {
-            request('GET', 'https://tver-trans.ru/yandex-test-error?json=' + jsonString)
-        } catch (e) {
-            console.log(e)
-        }
-        return []
-    }
+    return clearErrorDuplicates(errors)
 }
 
 if (global) {
@@ -143,54 +127,5 @@ let getStructure = (astNode, parent = null) => {
         }
         return nodes
     }
+    return []
 }
-
-/*
-console.log('Размер текста: 2 ошибки')
-let json = `{
-    "block": "warning-text",
-    "content": [
-        { "block": "text", "mods": { "size": "l" } },
-        { "block": "text", "mods": { "size": "m" } },
-        {
-            "block": "warning-text",
-            "content": [
-                { "block": "text", "mods": { "size": "l" } },
-                { "block": "text", "mods": { "size": "m" } }
-            ]
-        }
-    ]
-}`;
-
-lint(json)
-
-
-console.log('Размер кнопки: 0 ошибок')
-json = `{
-    "block": "warning-text",
-    "content": [
-        { "block": "text", "mods": { "size": "l" } },
-        { "block": "button", "mods": { "size": "xl" } }
-    ]
-}`
-lint(json)
-
-console.log('Размер кнопки: 1 ошибка')
-json = `{
-    "block": "warning-text",
-    "content": [
-        { "block": "text", "mods": { "size": "l" } },
-        { "block": "button", "mods": { "size": "s" } }
-    ]
-}`
-lint(json)
-*/
-
-json = `{
-    "block": "warning-text",
-    "content": [
-        { "block": "text", "mods": { "size": "l" } },
-        { "some": "text", "mix": { "block": "button", "mods": { "size": "s" } } }
-    ]
-}`
-lint(json)

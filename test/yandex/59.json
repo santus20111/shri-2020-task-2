@@ -1,0 +1,20 @@
+{
+  "block": "grid",
+  "mods": {
+    "m-columns": "5"
+  },
+  "content": [
+    {
+      "block": "grid",
+      "elem": "fraction",
+      "elemMods": {
+        "m-col": "5"
+      },
+      "content": [
+        {
+          "block": "articles"
+        }
+      ]
+    }
+  ]
+}

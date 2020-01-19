@@ -1,0 +1,23 @@
+{
+  "block": "warning",
+  "content": [
+    {
+      "block": "text",
+      "mods": {
+        "size": "m"
+      }
+    },
+    {
+      "block": "text",
+      "mods": {
+        "size": "m"
+      }
+    },
+    {
+      "block": "text",
+      "mods": {
+        "size": "s"
+      }
+    }
+  ]
+}

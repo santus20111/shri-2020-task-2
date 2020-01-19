@@ -49,7 +49,8 @@ let lint = (structureNode, isWarning = false) => {
 
 let collectPlaceholders = (structureNode) => {
     let nodes = []
-    if (!structureNode.isElem && structureNode.blockNames.indexOf('placeholder') !== -1) {
+    if (!structureNode.isElem &&
+        (structureNode.blockNames.indexOf('warning') !== -1 || structureNode.blockNames.indexOf('warning-text') !== -1)) {
         nodes.push(structureNode)
     }
 

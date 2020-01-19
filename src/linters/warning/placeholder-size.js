@@ -21,7 +21,8 @@ let lint = (structureNode) => {
         }
     }
 
-    if (!structureNode.isElem && structureNode.blockNames.indexOf('warning') !== -1) {
+    if (!structureNode.isElem &&
+        (structureNode.blockNames.indexOf('warning') !== -1 || structureNode.blockNames.indexOf('warning-text') !== -1)) {
         let placeholders = collectPlaceholders(structureNode);
         placeholders.forEach(placeholder => {
             if(sizes.indexOf(placeholder.mods.size) === -1) {

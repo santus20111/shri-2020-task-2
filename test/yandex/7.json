@@ -1,0 +1,14 @@
+{
+  "block": "warning",
+  "content": [
+    {
+      "block": "text",
+      "mods": {
+        "size": "m"
+      }
+    },
+    {
+      "block": "button"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "block": "grid",
+  "mods": {
+    "m-columns": "5"
+  },
+  "content": [
+    {
+      "block": "grid",
+      "elem": "fraction",
+      "elemMods": {
+        "m-col": "3"
+      },
+      "content": [
+        {
+          "block": "offer"
+        }
+      ]
+    },
+    {
+      "block": "grid",
+      "elem": "fraction",
+      "elemMods": {
+        "m-col": "2"
+      },
+      "content": [
+        {
+          "block": "history"
+        }
+      ]
+    }
+  ]
+}

@@ -21,7 +21,8 @@ let lint = (structureNode) => {
     }
 
 
-    if (!structureNode.isElem && structureNode.blockNames.indexOf('warning') !== -1) {
+    if (!structureNode.isElem &&
+        (structureNode.blockNames.indexOf('warning') !== -1 || structureNode.blockNames.indexOf('warning-text') !== -1)) {
         let sizeSet = new Set();
 
 
@@ -39,7 +40,6 @@ let lint = (structureNode) => {
     }
 
     for (let child of structureNode.children) {
-
         errors.push(...lint(child, errors))
     }
 
