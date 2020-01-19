@@ -21,34 +21,61 @@ let lint = (structureNode) => {
         }
     }
 
-    let filteredTextBlocks = structureNode.children
+/*    let filteredTextBlocks = structureNode.children
         .filter(child => child.isBlock && child.blockName === 'text')
 
     let firstTextBlockSize = null
     if (filteredTextBlocks.length > 0) {
         firstTextBlockSize = filteredTextBlocks[0].mods.size
+    }*/
+
+    if (!structureNode.isElem && structureNode.blockName === 'warning') {
+        let texts = collectTexts(structureNode)
+        let buttons = collectButtons(structureNode)
+        if (texts.length > 0) {
+            let textSize = texts[0].mods.size
+            buttons.forEach(button => {
+                let buttonSize = button.mods.size
+                if (sizes.indexOf(textSize) !== -1 &&
+                    sizes.indexOf(buttonSize) !== -1 &&
+                    sizes.indexOf(buttonSize) - sizes.indexOf(textSize) !== 1) {
+                    errors.push(buildError(button.loc))
+                }
+            })
+        }
     }
 
-
     for (let child of structureNode.children) {
-        if (structureNode.isBlock && structureNode.blockName === 'warning') {
-            if (child.isBlock && child.blockName === 'button' && firstTextBlockSize !== null) {
-
-                let buttonSize = child.mods.size
-
-                if(sizes.indexOf(buttonSize) !== -1 && sizes.indexOf(firstTextBlockSize) !== -1) {
-                    if (sizes.indexOf(buttonSize) - sizes.indexOf(firstTextBlockSize) !== 1) {
-                        errors.push(buildError(child.loc))
-                    }
-                }
-            }
-        }
-
         errors.push(...lint(child, errors))
     }
 
     return errors
 }
 
+let collectTexts = (structureNode) => {
+    let texts = []
+
+    if (!structureNode.isElem && structureNode.blockName === 'text') {
+        texts.push(structureNode)
+    }
+
+    for (let child of structureNode.children) {
+        texts.push(...collectTexts(child))
+    }
+    return texts
+}
+
+let collectButtons = (structureNode) => {
+    let texts = []
+
+    if (!structureNode.isElem && structureNode.blockName === 'button') {
+        texts.push(structureNode)
+    }
+
+    for (let child of structureNode.children) {
+        texts.push(...collectButtons(child))
+    }
+    return texts
+}
 
 module.exports = initLint

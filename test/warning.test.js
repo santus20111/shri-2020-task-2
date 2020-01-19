@@ -87,7 +87,7 @@ test('Блок Headers;H1 единственный на странице;h1-seve
     let text = fs.readFileSync('test/headers/h1-several-1-errors.json', 'utf8');
     expect(lint(text)
         .filter(error => error.code === 'TEXT.SEVERAL_H1')
-        .length).toBe(2);
+        .length).toBe(1);
 });
 
 test('Блок Headers;H2 перед H1;h2-before-h1-0-errors.json', () => {

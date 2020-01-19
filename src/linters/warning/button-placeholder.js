@@ -6,7 +6,7 @@ let initLint = (nodes) => {
     return errors
 }
 
-let lint = (structureNode) => {
+let lint = (structureNode, isWarning = false) => {
     let errors = []
 
     let buildError = (loc) => {
@@ -21,27 +21,27 @@ let lint = (structureNode) => {
     }
 
     if (!structureNode.isElem &&
+        structureNode.blockName === 'warning') {
+        isWarning = true
+    } else if (isWarning &&
+        !structureNode.isElem &&
         structureNode.blockName === 'button' &&
-        structureNode.parent !== null &&
-        !structureNode.parent.isElem &&
-        structureNode.parent.blockName === 'warning' &&
         structureNode.next) {
 
         let placeholderNodes = []
 
         let currentNode = structureNode
-        while(currentNode.next) {
+        while (currentNode.next) {
             placeholderNodes.push(...collectPlaceholders(currentNode.next))
             currentNode = currentNode.next
         }
 
-        if(placeholderNodes.length > 0) {
+        if (placeholderNodes.length > 0) {
             errors.push(buildError(structureNode.loc))
         }
     }
-
     for (let child of structureNode.children) {
-        errors.push(...lint(child))
+        errors.push(...lint(child, isWarning))
     }
 
     return errors

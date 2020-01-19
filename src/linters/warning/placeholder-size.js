@@ -21,20 +21,33 @@ let lint = (structureNode) => {
         }
     }
 
-    for (let child of structureNode.children) {
-        if (structureNode.isBlock && structureNode.blockName === 'warning') {
-            if (child.isBlock && child.blockName === 'placeholder') {
-
-                if (sizes.indexOf(child.mods.size) === -1) {
-                    errors.push(buildError(child.loc))
-                }
+    if (!structureNode.isElem && structureNode.blockName === 'warning') {
+        let placeholders = collectPlaceholders(structureNode);
+        placeholders.forEach(placeholder => {
+            if(sizes.indexOf(placeholder.mods.size) === -1) {
+                errors.push(buildError(placeholder.loc))
             }
-        }
+        })
+    }
 
+    for (let child of structureNode.children) {
         errors.push(...lint(child, errors))
     }
 
     return errors
+}
+
+let collectPlaceholders = (structureNode) => {
+    let nodes = []
+    if (!structureNode.isElem && structureNode.blockName === 'placeholder') {
+        nodes.push(structureNode)
+    }
+
+    for (let child of structureNode.children) {
+        nodes.push(...collectPlaceholders(child))
+    }
+
+    return nodes
 }
 
 module.exports = initLint
